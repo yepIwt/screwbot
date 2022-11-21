@@ -1,16 +1,14 @@
-# This is a sample Python script.
+from vkwave.bots import SimpleLongPollBot
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+bot = SimpleLongPollBot(tokens = BOT_TOKEN, group_id = 217315377)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@bot.message_handler()
+def handle(_) -> str:
+    return "Hello world!"
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+if __name__ == "__main__":
+    bot.run_forever()
