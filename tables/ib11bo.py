@@ -81,7 +81,7 @@ timetable = {
 				]
 			},
 		},
-		"Wensday": {
+		"Wednesday": {
 			"Вторая пара": {
 				[
 					{
@@ -261,7 +261,7 @@ timetable = {
 				]
 			},
 		},
-		"Wensday": {
+		"Wednesday": {
 			"Вторая пара": {
 				[
 					{
