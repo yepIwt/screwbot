@@ -1,5 +1,4 @@
-import datetime
-
+import datetime, pytz
 from vkwave.bots import SimpleLongPollBot
 import os
 import db
@@ -8,7 +7,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 bot = SimpleLongPollBot(tokens=BOT_TOKEN, group_id=217315377)
 
 VK_MESSAGE_CONSTANT = 2000000000
-
+my_tz = pytz.timezone('Europe/Moscow')
 
 def msg_creator(name: str, pair_num: str, pairs: dict):
 	print("MESSAGE CREATOR")
@@ -58,8 +57,10 @@ async def handle_time(event: bot.SimpleBotEvent) -> str:
 	).response[0]
 	name = user_data.first_name
 
+	now = datetime.datetime.fromtimestamp(event.object.object.message.date, my_tz)
 
-	now = datetime.datetime.now()
+	print("Вызов в", now.time())
+
 	pairs = times.predict_next_pair(
 		now_time=now.time(),
 		weekday_n=now.date().weekday(),
