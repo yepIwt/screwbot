@@ -1,6 +1,7 @@
 import datetime
+from tables import ib11bo
 
-timetable = {
+timetable_pairs = {
 	datetime.time(hour=9, minute=0): "Первая пара",
 	datetime.time(hour=10, minute=45): "Вторая пара",
 	datetime.time(hour=13, minute=20): "Третья пара",
@@ -9,21 +10,50 @@ timetable = {
 	datetime.time(hour=18, minute=35): "Шестая пара",
 }
 
+days_in_strings = {
+	0: "Monday",
+	1: "Tuesday",
+	2: "Wensday",
+	3: "Thursday",
+	4: "Friday",
+	5: "Saturday",
+	6: "Sunday",
+}
 
-now = datetime.datetime.now().time()
-now = datetime.time(hour=12, minute=20)
 
-def predict_next_pair(now_time: datetime.time) -> str:
+#now = datetime.datetime.now().time()
+
+#now = datetime.time(hour=12, minute=20)
+#weekday = days_in_strings[datetime.datetime.now().date().weekday()]
+#numer_week = datetime.datetime.now().date().isocalendar()[1]
+#den_or_num = "denominator" if numer_week % 2 == 0 else "numerator"
+
+def get_num_pair(t: datetime.time):
 	next_para = None
 
-	if now_time < datetime.time(hour=12, minute = 20):
-		return "Перерыв 1 час"
-
-	for pairs in timetable.keys():
-		if pairs > now:
+	for pairs in timetable_pairs.keys():
+		if pairs > t:
 			next_para = pairs
 			break
 
-	return timetable.get(next_para)
+	if t < datetime.time(hour=9, minute=0):
+		next_para = datetime.time(hour=9, minute=0)
 
-print(predict_next_pair(now))
+	if not next_para:
+		return "Пары кончились на сегодня"
+
+	next_para = timetable_pairs.get(next_para)
+
+	return next_para
+
+def predict_next_pair(now_time: datetime.time, weekday_n: int, numer_week: int) -> str:
+	print("started predicted")
+
+	weekday = days_in_strings[weekday_n]
+	next_para = get_num_pair(now_time)
+	print(next_para)
+
+	den_or_num = "denominator" if numer_week % 2 == 0 else "numerator"
+	res = ib11bo.timetable.get(den_or_num).get(weekday).get(next_para)
+	print("RES TIME", res)
+	return res
