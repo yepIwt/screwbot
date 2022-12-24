@@ -21,13 +21,6 @@ days_in_strings = {
 }
 
 
-#now = datetime.datetime.now().time()
-
-#now = datetime.time(hour=12, minute=20)
-#weekday = days_in_strings[datetime.datetime.now().date().weekday()]
-#numer_week = datetime.datetime.now().date().isocalendar()[1]
-#den_or_num = "denominator" if numer_week % 2 == 0 else "numerator"
-
 def get_num_pair(t: datetime.time):
 	next_para = None
 
@@ -46,6 +39,7 @@ def get_num_pair(t: datetime.time):
 
 	return next_para
 
+
 def predict_next_pair(now_time: datetime.time, weekday_n: int, numer_week: int) -> str:
 	print("started predicted")
 
@@ -54,6 +48,10 @@ def predict_next_pair(now_time: datetime.time, weekday_n: int, numer_week: int) 
 	print(next_para)
 
 	den_or_num = "denominator" if numer_week % 2 == 0 else "numerator"
-	res = ib11bo.timetable.get(den_or_num).get(weekday).get(next_para)
+
+	if not ib11bo.timetable.get(den_or_num).get(weekday):
+		return False
+	else:
+		res = ib11bo.timetable.get(den_or_num).get(weekday).get(next_para)
 	print("RES TIME", res)
 	return res
